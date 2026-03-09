@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DDCET 2026 — Admin Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="frontend/css/login.css"/>
+</head>
+<body>
+
+  <div class="bg-pattern"></div>
+  <div class="bg-blob-1"></div>
+  <div class="bg-blob-2"></div>
+
+  <div class="login-wrapper">
+    <div class="login-card">
+
+      <div class="card-stripe"></div>
+
+      <div class="card-body-inner">
+
+        <!-- Logo -->
+        <div class="logo-wrap">
+          <img src="frontend/logo.jpg" alt="SLTIET Logo" class="logo-img"/>
+          <div class="logo-text-wrap">
+            <span class="logo-name">SLTIET</span>
+            <span class="logo-tagline">Diploma / Degree Common Entrance Test</span>
+            <span class="logo-sanskrit">आत्मदीपोभव</span>
+          </div>
+        </div>
+
+        <h1 class="login-heading">Admin Login</h1>
+        <p class="login-desc">Sign in to access the DDCET 2026 exam management panel.</p>
+
+        <!-- Error -->
+        <div class="error-alert" id="error-alert">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span id="error-text">Invalid username or password.</span>
+        </div>
+
+        <!-- Username -->
+        <div class="form-field">
+          <label class="field-label">Username</label>
+          <div class="field-wrap">
+            <span class="field-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </span>
+            <input type="text" id="username" class="field-input" placeholder="Enter username" autocomplete="off"/>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-field">
+          <label class="field-label">Password</label>
+          <div class="field-wrap">
+            <span class="field-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </span>
+            <input type="password" id="password" class="field-input" placeholder="Enter password"/>
+            <button class="eye-btn" onclick="togglePassword()" type="button">
+              <svg id="eye-show" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg id="eye-hide" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button class="login-btn" id="login-btn" onclick="handleLogin()">
+          <span class="btn-inner">
+            <span class="btn-text">ACCESS DASHBOARD</span>
+            <svg class="btn-arrow" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+          <span class="btn-loader" id="btn-loader">
+            <span></span><span></span><span></span>
+          </span>
+        </button>
+
+        <div class="security-note">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Restricted access · Session protected
+        </div>
+
+      </div>
+
+      <div class="card-footer">
+        <span>DDCET 2026 · SLTIET Exam Management</span>
+        <span class="footer-ver">v1.0</span>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="frontend/js/auth.js"></script>
+
+</body>
+</html>

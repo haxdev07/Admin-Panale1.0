@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DDCET 2026 — Admin Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="frontend/css/dashboard.css"/>
+</head>
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <header class="navbar-main">
+    <div class="nav-left">
+      <img src="frontend/logo.jpg" alt="SLTIET" class="nav-logo-img"/>
+      <div class="nav-title-block">
+        <span class="nav-title">SLTIET <span>DDCET 2026</span></span>
+        <span class="nav-subtitle">Admin Dashboard</span>
+      </div>
+    </div>
+
+    <div class="nav-center">
+      <div class="nav-search">
+        <svg class="ns-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="search-input" class="ns-input" placeholder="Search by name, email or mobile…" oninput="handleSearch()"/>
+        <button class="ns-clear" id="clear-btn" onclick="clearSearch()">✕</button>
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <div class="live-pill" id="live-pill">
+        <span class="live-dot"></span>
+        <span>LIVE</span>
+      </div>
+      <div class="nav-admin">
+        <div class="admin-avatar">A</div>
+        <span class="admin-name">admin</span>
+      </div>
+      <button class="nav-logout" onclick="handleLogout()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Logout
+      </button>
+    </div>
+  </header>
+
+  <!-- ── MAIN ── -->
+  <main class="main-wrap">
+
+    <!-- Stats -->
+    <section class="stats-grid">
+      <div class="stat-card" style="--delay:0.05s">
+        <div class="stat-icon-wrap blue">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="stat-info">
+          <div class="stat-label">Total Students</div>
+          <div class="stat-value" id="stat-total">—</div>
+        </div>
+      </div>
+
+      <div class="stat-card" style="--delay:0.1s">
+        <div class="stat-icon-wrap orange">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="stat-info">
+          <div class="stat-label">Highest Score</div>
+          <div class="stat-value orange-val" id="stat-high">—</div>
+        </div>
+        <div class="stat-badge">TOP</div>
+      </div>
+
+      <div class="stat-card" style="--delay:0.15s">
+        <div class="stat-icon-wrap green">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="stat-info">
+          <div class="stat-label">Average Score</div>
+          <div class="stat-value" id="stat-avg">—</div>
+        </div>
+      </div>
+
+      <div class="stat-card" style="--delay:0.2s">
+        <div class="stat-icon-wrap purple">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div class="stat-info">
+          <div class="stat-label">Today's Entries</div>
+          <div class="stat-value" id="stat-today">—</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Leaderboard -->
+    <section class="panel" style="--delay:0.25s">
+      <div class="panel-header">
+        <div class="panel-title-wrap">
+          <span class="panel-icon">🏆</span>
+          <h2 class="panel-title">Top 10 Leaderboard</h2>
+          <span class="panel-badge" id="lb-count">—</span>
+        </div>
+        <span class="panel-hint">Ranked by score · ties broken by fastest time</span>
+      </div>
+      <div class="leaderboard-scroll" id="leaderboard-container">
+        <div class="lb-placeholder">
+          <div class="shimmer-card"></div><div class="shimmer-card"></div>
+          <div class="shimmer-card"></div><div class="shimmer-card"></div>
+          <div class="shimmer-card"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Table -->
+    <section class="panel" style="--delay:0.3s">
+      <div class="panel-header">
+        <div class="panel-title-wrap">
+          <span class="panel-icon">📋</span>
+          <h2 class="panel-title">All Results</h2>
+          <span class="panel-badge" id="result-count">—</span>
+        </div>
+        <div class="table-actions">
+          <span class="search-tag d-none" id="search-tag">
+            <span id="search-tag-text"></span>
+            <button onclick="clearSearch()">✕</button>
+          </span>
+          <button class="export-btn" onclick="openExportMenu()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download TSV
+          </button>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th class="th-rank">Rank</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Mobile</th>
+              <th class="th-score">Score / Total</th>
+              <th>Time Used</th>
+              <th>Warnings</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <tr>
+              <td colspan="7" class="table-empty">
+                <div class="empty-state">
+                  <div class="empty-spinner"></div>
+                  <span>Connecting to database…</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── EXPORT MODAL ── -->
+  <div class="modal-backdrop" id="export-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-icon">📥</span>
+          <h3 class="modal-title">Export Results</h3>
+        </div>
+        <button class="modal-close" onclick="closeExportMenu()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <p class="modal-desc">Choose the dataset to download as a <span>.tsv</span> file (opens in Excel).</p>
+
+      <div class="modal-options">
+        <button class="modal-opt" onclick="downloadTSV('all')">
+          <div class="opt-left">
+            <div class="opt-icon-wrap all">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div>
+              <div class="opt-title">All Results</div>
+              <div class="opt-count" id="opt-all-count">— records</div>
+            </div>
+          </div>
+          <svg class="opt-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+
+        <button class="modal-opt" onclick="downloadTSV('filtered')">
+          <div class="opt-left">
+            <div class="opt-icon-wrap filtered">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+            </div>
+            <div>
+              <div class="opt-title">Filtered Results</div>
+              <div class="opt-count" id="opt-filtered-count">Current view</div>
+            </div>
+          </div>
+          <svg class="opt-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+
+        <button class="modal-opt" onclick="downloadTSV('top10')">
+          <div class="opt-left">
+            <div class="opt-icon-wrap top10">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <div>
+              <div class="opt-title">Top 10 Scores</div>
+              <div class="opt-count">Leaderboard only</div>
+            </div>
+          </div>
+          <svg class="opt-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-footer-note">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        File includes UTF-8 BOM for Excel compatibility
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="backend/firebase-config.js"></script>
+  <script src="backend/realtime.js"></script>
+  <script src="frontend/js/dashboard.js"></script>
+  <script src="frontend/js/search.js"></script>
+  <script src="frontend/js/leaderboard.js"></script>
+  <script src="frontend/js/export.js"></script>
+</body>
+</html>

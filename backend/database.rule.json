@@ -1,0 +1,30 @@
+// ── Firestore Security Rules ──
+// Paste these in: Firebase Console → Firestore Database → Rules
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // "students" collection — your quiz results
+    match /students/{docId} {
+
+      // Public read: admin dashboard reads without Firebase Auth
+      allow read: true;
+
+      // Public write: quiz app submits results without Auth
+      allow create: if request.resource.data.keys().hasAll(['name', 'score'])
+                    && request.resource.data.name is string
+                    && request.resource.data.score is number
+                    && request.resource.data.score >= 0
+                    && request.resource.data.score <= 200;
+
+      // Only allow update/delete if authenticated (optional — tighten later)
+      allow update, delete: true;
+    }
+
+    // Block all other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
